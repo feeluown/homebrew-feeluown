@@ -10,22 +10,54 @@ class Feeluown < Formula
   depends_on "mpv"
 
   option "with-battery", "feeluown battery"
+  option "with-qqmusic", "feeluown qqmusic plugin"
+  option "with-kuwo", "feeluown kuwo plugin"
+  option "with-xiami", "feeluown xiami plugin"
+  option "with-netease", "feeluown netease plugin"
+  option "with-local", "feeluown local plugin"
 
   def install
-    _extra = "[macos]"
+    _plugins = []
+    _xiami = "fuo-xiami"
+    _netease = "fuo-netease"
+    _qqmusic = "fuo-qqmusic"
+    _kuwo = "fuo-kuwo"
+    _local = "fuo-local"
+    _battery = [_xiami, _netease, _qqmusic, _kuwo, _local]
+
     if build.with? "battery"
-      _extra = "[battery,macos]"
+      _plugins = _plugins + _battery
+    else
+      if build.with? "xiami"
+        _plugins.push(_xiami)
+      end
+      if build.with? "netease"
+        _plugins.push(_netease)
+      end
+      if build.with? "qqmusic"
+        _plugins.push(_qqmusic)
+      end
+      if build.with? "local"
+        _plugins.push(_local)
+      end
+      if build.with? "kuwo"
+        _plugins.push(_kuwo)
+      end
     end
-    _package = "#{buildpath}/#{_extra}"
 
     xy = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python#{xy}/site-packages"
-    system Formula["python@3.8"].opt_bin/"pip3", "install", _package,
-           "--upgrade", "--prefix", libexec
+
+    # pip install feeluown[macos]
+    system Formula["python@3.8"].opt_bin/"pip3", "install", buildpath/"[macos]",
+           "--prefix", libexec
+
+    # pip install fuo-xxx fuo-yyy ...
+    system Formula["python@3.8"].opt_bin/"pip3", "install", *_plugins,
+           "--prefix", libexec
 
     bin.install Dir[libexec/"bin/feeluown"]
     bin.install Dir[libexec/"bin/fuo"]
-    bin.install Dir[libexec/"bin/feeluown-genicon"]
 
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
   end
