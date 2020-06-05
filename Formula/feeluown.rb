@@ -1,4 +1,4 @@
-class FeelUOwn < Formula
+class Feeluown < Formula
   include Language::Python::Virtualenv
 
   desc "A user-friendly and hackable music player"
