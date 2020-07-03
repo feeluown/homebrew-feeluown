@@ -21,7 +21,7 @@ jobs:
       id: pypi
       run: |
         curl 'https://pypi.org/pypi/feeluown/json' | jq '.urls[] | select(.packagetype == "sdist")' > sdist.json
-        echo "::set-output name=url::$(cat sdist.json | | jq .url | sed 's/\"//g')"
+        echo "::set-output name=url::$(cat sdist.json | jq .url | sed 's/\"//g')"
         echo "::set-output name=sha256::$(cat sdist.json | jq .digests.sha256 | sed 's/\"//g')"
 
     - name: Compare version
