@@ -17,30 +17,30 @@ jobs:
         # https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148/8
         token: ${{ secrets.DISTRIBUTION_TOKEN }}
 
-    - name: Get pypi package metadata
-      id: pypi
-      run: |
-        curl 'https://pypi.org/pypi/feeluown/json' | jq '.urls[] | select(.packagetype == "sdist")' > sdist.json
-        echo "::set-output name=url::$(cat sdist.json | jq .url | sed 's/\"//g')"
-        echo "::set-output name=sha256::$(cat sdist.json | jq .digests.sha256 | sed 's/\"//g')"
-
-    - name: Compare version
-      id: compare
-      run: echo "::set-output name=update::$(cat Formula/feeluown.rb | grep '${{ steps.pypi.outputs.sha256 }}' || echo 1)"
-
-    - name: Update formula code
-      id: formula
-      run: |
-        sed -i 's/url "\(.*\)"/url "${{ steps.pypi.outputs.url }}"/g' Formula/feeluown.rb
-        sed -i 's/sha256 "\(.*\)"/sha256 "${{ steps.pypi.outputs.sha256 }}"/g' Formula/feeluown.rb
-
-    - name: Commit formula code
-      if: ${{ steps.compare.outputs.update == "1" }}
-      uses: EndBug/add-and-commit@v4
-      with:
-        author_name: feeluown-bot
-        author_email: release@feeluown.org
-        message: "Update to version ${{ steps.newver.outputs.newver }}"
-        add: "Formula/feeluown.rb"
-      env:
-        GITHUB_TOKEN: ${{ secrets.DISTRIBUTION_TOKEN }}
+    # - name: Get pypi package metadata
+    #   id: pypi
+    #   run: |
+    #     curl 'https://pypi.org/pypi/feeluown/json' | jq '.urls[] | select(.packagetype == "sdist")' > sdist.json
+    #     echo "::set-output name=url::$(cat sdist.json | jq .url | sed 's/\"//g')"
+    #     echo "::set-output name=sha256::$(cat sdist.json | jq .digests.sha256 | sed 's/\"//g')"
+    #
+    # - name: Compare version
+    #   id: compare
+    #   run: echo "::set-output name=update::$(cat Formula/feeluown.rb | grep '${{ steps.pypi.outputs.sha256 }}' || echo 1)"
+    #
+    # - name: Update formula code
+    #   id: formula
+    #   run: |
+    #     sed -i 's/url "\(.*\)"/url "${{ steps.pypi.outputs.url }}"/g' Formula/feeluown.rb
+    #     sed -i 's/sha256 "\(.*\)"/sha256 "${{ steps.pypi.outputs.sha256 }}"/g' Formula/feeluown.rb
+    #
+    # - name: Commit formula code
+    #   if: ${{ steps.compare.outputs.update == "1" }}
+    #   uses: EndBug/add-and-commit@v4
+    #   with:
+    #     author_name: feeluown-bot
+    #     author_email: release@feeluown.org
+    #     message: "Update to version ${{ steps.newver.outputs.newver }}"
+    #     add: "Formula/feeluown.rb"
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.DISTRIBUTION_TOKEN }}
