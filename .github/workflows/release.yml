@@ -38,7 +38,7 @@ jobs:
         sed -i 's/sha256 "\(.*\)"/sha256 "${{ steps.pypi.outputs.sha256 }}"/g' Formula/feeluown.rb
     
     - name: Commit formula code
-      if: ${{ steps.compare.outputs.update == "1" }}
+      if: ${{ steps.compare.outputs.update == 1 }}
       uses: EndBug/add-and-commit@v4
       with:
         author_name: feeluown-bot
