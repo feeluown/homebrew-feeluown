@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install packages
-      run: "sudo apt update && sudo apt install -y node-semver jq"
+      run: "sudo apt update && sudo apt install -y jq"
     - name: Checkout repo
       uses: actions/checkout@v2
       with:
@@ -34,7 +34,7 @@ jobs:
     - name: Update formula code
       id: formula
       run: |
-        sed -i 's/url "\(.*\)"/url "${{ steps.pypi.outputs.url }}"/g' Formula/feeluown.rb
+        sed -i 's#url "\(.*\)"#url "${{ steps.pypi.outputs.url }}"#g' Formula/feeluown.rb
         sed -i 's/sha256 "\(.*\)"/sha256 "${{ steps.pypi.outputs.sha256 }}"/g' Formula/feeluown.rb
     
     - name: Commit formula code
