@@ -4,7 +4,7 @@ class Feeluown < Formula
   url "https://files.pythonhosted.org/packages/6b/f9/8f3c5bd5571aec4427d65b56ae18b2c783a8911967e895ae21f4f8d6a247/feeluown-3.6.tar.gz"
   sha256 "61c5edde9b49c4f64410c1f12dc99f2d0420e7ccd6f4cb3d143755b7707756ed"
 
-  depends_on "python@3.8"
+  depends_on "python@3.9"
   depends_on "pyqt5"
   depends_on "mpv"
 
@@ -44,15 +44,15 @@ class Feeluown < Formula
       end
     end
 
-    xy = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
+    xy = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python#{xy}/site-packages"
 
     # pip install feeluown[macos]
-    system Formula["python@3.8"].opt_bin/"pip3", "install", buildpath/"[macos]",
+    system Formula["python@3.9"].opt_bin/"pip3", "install", buildpath/"[macos]",
            "--prefix", libexec
 
     # pip install fuo-xxx fuo-yyy ...
-    system Formula["python@3.8"].opt_bin/"pip3", "install", *_plugins,
+    system Formula["python@3.9"].opt_bin/"pip3", "install", *_plugins,
            "--prefix", libexec
 
     bin.install Dir[libexec/"bin/feeluown"]
