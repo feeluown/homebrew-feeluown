@@ -11,25 +11,20 @@ class Feeluown < Formula
   option "with-battery", "feeluown battery"
   option "with-qqmusic", "feeluown qqmusic plugin"
   option "with-kuwo", "feeluown kuwo plugin"
-  option "with-xiami", "feeluown xiami plugin"
   option "with-netease", "feeluown netease plugin"
   option "with-local", "feeluown local plugin"
 
   def install
     _plugins = []
-    _xiami = "fuo-xiami"
     _netease = "fuo-netease"
     _qqmusic = "fuo-qqmusic"
     _kuwo = "fuo-kuwo"
     _local = "fuo-local"
-    _battery = [_xiami, _netease, _qqmusic, _kuwo, _local]
+    _battery = [_netease, _qqmusic, _kuwo, _local]
 
     if build.with? "battery"
       _plugins = _plugins + _battery
     else
-      if build.with? "xiami"
-        _plugins.push(_xiami)
-      end
       if build.with? "netease"
         _plugins.push(_netease)
       end
@@ -51,9 +46,11 @@ class Feeluown < Formula
     system Formula["python@3.9"].opt_bin/"pip3", "install", buildpath/"[macos]",
            "--prefix", libexec
 
-    # pip install fuo-xxx fuo-yyy ...
-    system Formula["python@3.9"].opt_bin/"pip3", "install", *_plugins,
-           "--prefix", libexec
+    if _plugins
+       # pip install fuo-xxx fuo-yyy ...
+       system Formula["python@3.9"].opt_bin/"pip3", "install", *_plugins,
+              "--prefix", libexec
+    end
 
     bin.install Dir[libexec/"bin/feeluown"]
     bin.install Dir[libexec/"bin/fuo"]
