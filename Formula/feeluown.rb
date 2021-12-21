@@ -1,4 +1,6 @@
 class Feeluown < Formula
+  include Language::Python::Virtualenv
+
   desc "A user-friendly and hackable music player"
   homepage "https://github.com/feeluown/"
   url "https://files.pythonhosted.org/packages/01/76/1ca99403cb8bfe912c16023e7a2e9a2f5eaabb05d44618511b6fd6a72b25/feeluown-3.7.14.tar.gz"
@@ -39,23 +41,13 @@ class Feeluown < Formula
       end
     end
 
-    xy = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
-    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python#{xy}/site-packages"
-
-    # pip install feeluown[macos]
-    system Formula["python@3.9"].opt_bin/"pip3", "install", buildpath/"[macos]",
-           "--prefix", libexec
-
+    venv = virtualenv_create(libexec, "python3")
+    system libexec/"bin"/"pip", "install", buildpath/"[macos]"
     if _plugins
-       # pip install fuo-xxx fuo-yyy ...
-       system Formula["python@3.9"].opt_bin/"pip3", "install", *_plugins,
-              "--prefix", libexec
+      system libexec/"bin"/"pip", "install", *_plugins
     end
-
     bin.install Dir[libexec/"bin/feeluown"]
     bin.install Dir[libexec/"bin/fuo"]
-
-    bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
   end
 
   test do
