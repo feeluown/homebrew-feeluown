@@ -6,7 +6,7 @@ class Feeluown < Formula
   url "https://files.pythonhosted.org/packages/b6/72/ff8da1bd3377ba3d147035234180e0238047bf9d9639ef7d84d506279610/feeluown-3.8.8.tar.gz"
   sha256 "0805a37da5a004cba12272d9ad20b7cd7066737d8d2bf0e6f6e5b83de16aec38"
 
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "pyqt5"
   depends_on "mpv"
 
@@ -15,6 +15,7 @@ class Feeluown < Formula
   option "with-kuwo", "feeluown kuwo plugin"
   option "with-netease", "feeluown netease plugin"
   option "with-local", "feeluown local plugin"
+  option "with-bilibili", "feeluown local plugin"
 
   def install
     _plugins = []
@@ -22,7 +23,8 @@ class Feeluown < Formula
     _qqmusic = "fuo-qqmusic"
     _kuwo = "fuo-kuwo"
     _local = "fuo-local"
-    _battery = [_netease, _qqmusic, _kuwo, _local]
+    _bilibili = "feeluown-bilibili"
+    _battery = [_netease, _qqmusic, _kuwo, _local, _bilibili]
 
     if build.with? "battery"
       _plugins = _plugins + _battery
@@ -38,6 +40,9 @@ class Feeluown < Formula
       end
       if build.with? "kuwo"
         _plugins.push(_kuwo)
+      end
+      if build.with? "bilibili"
+        _plugins.push(_bilibili)
       end
     end
 
