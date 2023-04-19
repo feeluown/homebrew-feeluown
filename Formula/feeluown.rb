@@ -14,17 +14,15 @@ class Feeluown < Formula
   option "with-qqmusic", "feeluown qqmusic plugin"
   option "with-kuwo", "feeluown kuwo plugin"
   option "with-netease", "feeluown netease plugin"
-  option "with-local", "feeluown local plugin"
-  option "with-bilibili", "feeluown local plugin"
+  option "with-bilibili", "feeluown bilibili plugin"
 
   def install
     _plugins = []
     _netease = "fuo-netease"
     _qqmusic = "fuo-qqmusic"
     _kuwo = "fuo-kuwo"
-    _local = "fuo-local"
     _bilibili = "feeluown-bilibili"
-    _battery = [_netease, _qqmusic, _kuwo, _local, _bilibili]
+    _battery = [_netease, _qqmusic, _kuwo, _bilibili]
 
     if build.with? "battery"
       _plugins = _plugins + _battery
