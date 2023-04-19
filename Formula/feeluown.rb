@@ -33,9 +33,6 @@ class Feeluown < Formula
       if build.with? "qqmusic"
         _plugins.push(_qqmusic)
       end
-      if build.with? "local"
-        _plugins.push(_local)
-      end
       if build.with? "kuwo"
         _plugins.push(_kuwo)
       end
@@ -51,6 +48,17 @@ class Feeluown < Formula
     end
     bin.install Dir[libexec/"bin/feeluown"]
     bin.install Dir[libexec/"bin/fuo"]
+  end
+
+  def caveats
+    <<-EOF
+    You can also use pip to install/uninstall plugins since FeelUOwn
+    is installed into a virtual env. So you can run the following cmd
+
+      '#{libexec/"bin"/"pip"} install/uninstall fuo-qqmusic'
+
+    to install/uninstall 'fuo-qqmusic' plugin.
+    EOF
   end
 
   test do
