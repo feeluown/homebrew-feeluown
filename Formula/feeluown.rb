@@ -3,8 +3,8 @@ class Feeluown < Formula
 
   desc "A user-friendly and hackable music player"
   homepage "https://github.com/feeluown/"
-  url "https://files.pythonhosted.org/packages/4e/49/f79390a4c0ae4639f243f70cf92aea706154a792b5875008e19838be2182/feeluown-3.8.14.tar.gz"
-  sha256 "bf860ec5b022327fe416f1b1fc5bb09bfb263fecbf6f11bbd0ad5637a9278d26"
+  url "https://files.pythonhosted.org/packages/9c/8c/2957995e292944c691398bb9759f90891d9ab5131a8f64695130b49a5df9/feeluown-3.8.15.tar.gz"
+  sha256 "c04d717a795e77b80e9a4b94eb90c44cbcf0c4f5b5384feb266d750fff32ba45"
 
   depends_on "python@3.10"
   depends_on "pyqt5"
