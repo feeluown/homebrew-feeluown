@@ -6,14 +6,15 @@ class Feeluown < Formula
   url "https://files.pythonhosted.org/packages/c8/e9/1dbede3586e718461d234e631e215fce7861329d2cac8bed4e9dd4a740c8/feeluown-4.1.tar.gz"
   sha256 "f9b5e7c63f394e066a38f8f3bd68939893923d6a7c79ef7f4a7467b6aff6804d"
 
-  depends_on "python@3.10"
+  depends_on "python@3"
   depends_on "pyqt5"
   depends_on "mpv"
 
   option "with-battery", "feeluown battery"
   option "with-qqmusic", "feeluown qqmusic plugin"
-  option "with-kuwo", "feeluown kuwo plugin"
+  # option "with-kuwo", "feeluown kuwo plugin"
   option "with-netease", "feeluown netease plugin"
+  option "with-ytmusic", "feeluown ytmusic plugin"
   option "with-bilibili", "feeluown bilibili plugin"
 
   def install
@@ -21,8 +22,9 @@ class Feeluown < Formula
     _netease = "fuo-netease"
     _qqmusic = "fuo-qqmusic"
     _kuwo = "fuo-kuwo"
+    _ytmusic = "fuo-ytmusic"
     _bilibili = "feeluown-bilibili"
-    _battery = [_netease, _qqmusic, _kuwo, _bilibili]
+    _battery = [_netease, _qqmusic, _ytmusic, _bilibili]
 
     if build.with? "battery"
       _plugins = _plugins + _battery
@@ -36,12 +38,15 @@ class Feeluown < Formula
       if build.with? "kuwo"
         _plugins.push(_kuwo)
       end
+      if build.with? "ytmusic"
+        _plugins.push(_ytmusic)
+      end
       if build.with? "bilibili"
         _plugins.push(_bilibili)
       end
     end
 
-    venv = virtualenv_create(libexec, "python3", without_pip: false)
+    venv = virtualenv_create(libexec, "python3")
     system libexec/"bin"/"pip", "install", buildpath/"[macos]"
     if _plugins
       system libexec/"bin"/"pip", "install", *_plugins
