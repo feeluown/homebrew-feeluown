@@ -6,7 +6,7 @@ class Feeluown < Formula
   url "https://files.pythonhosted.org/packages/c8/e9/1dbede3586e718461d234e631e215fce7861329d2cac8bed4e9dd4a740c8/feeluown-4.1.tar.gz"
   sha256 "f9b5e7c63f394e066a38f8f3bd68939893923d6a7c79ef7f4a7467b6aff6804d"
 
-  depends_on "python@3"
+  depends_on "python@3.11"
   depends_on "pyqt5"
   depends_on "mpv"
 
@@ -46,10 +46,10 @@ class Feeluown < Formula
       end
     end
 
-    venv = virtualenv_create(libexec, "python3")
-    system libexec/"bin"/"pip", "install", buildpath/"[macos]"
+    venv = virtualenv_create(libexec, "python3.11")
+    system libexec/"bin"/"python3", "-m", "pip", "install", buildpath/"[macos]"
     if _plugins
-      system libexec/"bin"/"pip", "install", *_plugins
+      system libexec/"bin"/"python3", "-m", "pip", "install", *_plugins
     end
     bin.install Dir[libexec/"bin/feeluown"]
     bin.install Dir[libexec/"bin/fuo"]
