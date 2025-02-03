@@ -47,7 +47,7 @@ class Feeluown < Formula
     end
 
     venv = virtualenv_create(libexec, "python3.11")
-    system libexec/"bin"/"python3", "-m", "pip", "install", buildpath/"[macos]"
+    system libexec/"bin"/"python3", "-m", "pip", "install", buildpath/"[macos,ai,cookies,webengine]"
     if _plugins
       system libexec/"bin"/"python3", "-m", "pip", "install", *_plugins
     end
