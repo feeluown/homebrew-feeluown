@@ -12,7 +12,6 @@ class Feeluown < Formula
 
   option "with-battery", "feeluown battery"
   option "with-qqmusic", "feeluown qqmusic plugin"
-  # option "with-kuwo", "feeluown kuwo plugin"
   option "with-netease", "feeluown netease plugin"
   option "with-ytmusic", "feeluown ytmusic plugin"
   option "with-bilibili", "feeluown bilibili plugin"
@@ -21,7 +20,6 @@ class Feeluown < Formula
     _plugins = []
     _netease = "fuo-netease"
     _qqmusic = "fuo-qqmusic"
-    _kuwo = "fuo-kuwo"
     _ytmusic = "fuo-ytmusic"
     _bilibili = "feeluown-bilibili"
     _battery = [_netease, _qqmusic, _ytmusic, _bilibili]
@@ -34,9 +32,6 @@ class Feeluown < Formula
       end
       if build.with? "qqmusic"
         _plugins.push(_qqmusic)
-      end
-      if build.with? "kuwo"
-        _plugins.push(_kuwo)
       end
       if build.with? "ytmusic"
         _plugins.push(_ytmusic)
