@@ -7,7 +7,7 @@ class Feeluown < Formula
   sha256 "06f493e33844ae241bd5da8c81605a620f42bc26509a5651ad44db4dcb5fc5f9"
 
   depends_on "python@3.11"
-  depends_on "pyqt6"
+  depends_on "pyqt@6"
   depends_on "mpv"
 
   option "with-battery", "feeluown battery"
