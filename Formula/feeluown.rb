@@ -50,7 +50,7 @@ class Feeluown < Formula
       "aliyun-pypi" => "https://mirrors.aliyun.com/pypi/simple",
       "douban-pypi" => "https://pypi.douban.com/simple"
     }
-    selected_mirrors = pypi_mirrors.select { |name, _url| build.with? name }
+    selected_mirrors = pypi_mirrors.select { |name, _url| build.used_options.include?(name) }
     if selected_mirrors.length > 1
       odie "Only one mirror can be specified: --tsinghua-pypi, --aliyun-pypi, --douban-pypi"
     end
