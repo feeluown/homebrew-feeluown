@@ -15,6 +15,9 @@ class Feeluown < Formula
   option "with-netease", "feeluown netease plugin"
   option "with-ytmusic", "feeluown ytmusic plugin"
   option "with-bilibili", "feeluown bilibili plugin"
+  option "tsinghua-pypi", "use Tsinghua PyPI mirror for pip install"
+  option "aliyun-pypi", "use Aliyun PyPI mirror for pip install"
+  option "douban-pypi", "use Douban PyPI mirror for pip install"
 
   def install
     _plugins = []
@@ -41,10 +44,24 @@ class Feeluown < Formula
       end
     end
 
-    venv = virtualenv_create(libexec, "python3.11")
-    system libexec/"bin"/"python3", "-m", "pip", "install", buildpath/"[macos,ai,cookies,webengine]"
-    if _plugins
-      system libexec/"bin"/"python3", "-m", "pip", "install", *_plugins
+    pip_args = []
+    pypi_mirrors = {
+      "tsinghua-pypi" => "https://pypi.tuna.tsinghua.edu.cn/simple",
+      "aliyun-pypi" => "https://mirrors.aliyun.com/pypi/simple",
+      "douban-pypi" => "https://pypi.douban.com/simple"
+    }
+    selected_mirrors = pypi_mirrors.select { |name, _url| build.with? name }
+    if selected_mirrors.length > 1
+      odie "Only one mirror can be specified: --tsinghua-pypi, --aliyun-pypi, --douban-pypi"
+    end
+    if selected_mirrors.any?
+      pip_args += ["-i", selected_mirrors.values.first]
+    end
+
+    virtualenv_create(libexec, "python3.11")
+    system libexec/"bin"/"python3", "-m", "pip", "install", *pip_args, "#{buildpath}[macos,ai,cookies,webengine]"
+    if _plugins.any?
+      system libexec/"bin"/"python3", "-m", "pip", "install", *pip_args, *_plugins
     end
     bin.install Dir[libexec/"bin/feeluown"]
     bin.install Dir[libexec/"bin/fuo"]
@@ -58,6 +75,12 @@ class Feeluown < Formula
       '#{libexec/"bin"/"pip"} install/uninstall fuo-qqmusic'
 
     to install/uninstall 'fuo-qqmusic' plugin.
+
+    If you install from mainland China, you can enable mirror source:
+
+      brew install feeluown --tsinghua-pypi
+      brew install feeluown --aliyun-pypi
+      brew install feeluown --douban-pypi
     EOF
   end
 
